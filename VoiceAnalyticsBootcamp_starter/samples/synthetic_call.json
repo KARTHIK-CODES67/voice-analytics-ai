@@ -1,0 +1,7 @@
+{
+  "segments": [
+    {"id": "s0001", "start": 0.0, "end": 4.8, "text": "Hello, I am calling about your vehicle insurance renewal."},
+    {"id": "s0002", "start": 5.0, "end": 9.2, "text": "I cannot decide today, please call me tomorrow."},
+    {"id": "s0003", "start": 9.3, "end": 12.0, "text": "Sure, we will follow up after confirming your preferred time."}
+  ]
+}

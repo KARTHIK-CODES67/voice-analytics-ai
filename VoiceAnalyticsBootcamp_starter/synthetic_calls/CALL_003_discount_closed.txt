@@ -1,0 +1,4 @@
+﻿[0s] Agent: Namaskara, calling from Meghana International Insurance regarding your health policy renewal.
+[9s] Customer: The premium you quoted is 3,000 rupees higher than last year. I cannot afford that right now.
+[18s] Agent: I can apply a loyalty waiver and bring it down by 1,800 rupees, plus zero waiting period.
+[27s] Customer: Okay, if you apply that discount, email me the revised quote and I will pay today evening.

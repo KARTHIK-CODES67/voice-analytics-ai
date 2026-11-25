@@ -1,0 +1,5 @@
+# REFERENCE POC ONLY - install into Python 3.11 virtual environment.
+# For production, lock tested versions with hashes after target-environment validation.
+faster-whisper>=1.1,<2
+jsonschema>=4.20,<5
+pytest>=8,<10

@@ -1,0 +1,4 @@
+﻿[0s] Agent: Hello, calling from Meghana International Insurance—
+[4s] Customer: Hello? Your voice is breaking completely... hello? Can you hear me?
+[10s] Agent: Sir, can you hear me now? Checking network—
+[14s] [Call disconnected due to poor carrier signal]

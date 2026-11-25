@@ -1,0 +1,24 @@
+# === STRICT ZERO-PII & BINARY BLOCKLIST ===
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.flac
+*.zip
+*.rar
+*.csv
+*.xlsx
+*.xls
+*.pdf
+.env
+.env.*
+VoiceAnalyticsBootcamp_starter/outputs/real_audits/
+**/outputs/real_audits/
+.venv/
+.venv_real/
+**/__pycache__/
+*.pyc
+dashboard/node_modules/
+dashboard/dist/
+.DS_Store
+Thumbs.db

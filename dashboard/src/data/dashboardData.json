@@ -1,0 +1,51 @@
+{
+  "total_calls": 4,
+  "successful_calls": 2,
+  "unsuccessful_calls": 2,
+  "calls": [
+    {
+      "call_outcome": "SUCCESSFUL",
+      "reason": "The customer accepted the payment link and will complete the payment, confirming the renewal.",
+      "category": "RENEWAL_CONFIRMED",
+      "sentiment": "POSITIVE",
+      "key_quote": "Yes please send it right away, I will complete the payment in five minutes.",
+      "next_action": "Follow up with the customer regarding any issues or concerns they may have with the payment process.",
+      "call_id": "CALL-001",
+      "source_file": "CALL_001_renewal_agreed.txt",
+      "transcript": "\ufeff[0s] Agent: Good afternoon, calling from Meghana International Insurance regarding your policy renewal due tomorrow.\n[8s] Customer: Oh yes, I was waiting for a call! How much is the renewal amount with my No Claim Bonus?\n[16s] Agent: With your 25% NCB discount, the total is 8,450 rupees. I can send the payment link to your WhatsApp right now.\n[25s] Customer: Yes please send it right away, I will complete the payment in five minutes. Thank you!"
+    },
+    {
+      "call_outcome": "UNSUCCESSFUL",
+      "reason": "Customer declined renewal and switched to a competitor last week",
+      "category": "COMPETITOR_SWITCH",
+      "sentiment": "ANNOYED",
+      "key_quote": "Look, I am driving right now and I already renewed my policy with another company last week",
+      "next_action": "Send a follow-up email with benefits of staying with the current company",
+      "call_id": "CALL-002",
+      "source_file": "CALL_002_competitor_switch.txt",
+      "transcript": "\ufeff[0s] Agent: Hello, calling from Meghana International Insurance about your vehicle policy renewal.\n[7s] Customer: Look, I am driving right now and I already renewed my policy with another company last week. Don't call again.\n[15s] Agent: Understood sir, sorry for the disturbance. Have a safe drive."
+    },
+    {
+      "call_outcome": "SUCCESSFUL",
+      "reason": "The customer agreed to the discounted quote and will pay today evening.",
+      "category": "DISCOUNT_ACCEPTED",
+      "sentiment": "POSITIVE",
+      "key_quote": "Okay, if you apply that discount, email me the revised quote and I will pay today evening.",
+      "next_action": "Follow up with an invoice and confirmation email",
+      "call_id": "CALL-003",
+      "source_file": "CALL_003_discount_closed.txt",
+      "transcript": "\ufeff[0s] Agent: Namaskara, calling from Meghana International Insurance regarding your health policy renewal.\n[9s] Customer: The premium you quoted is 3,000 rupees higher than last year. I cannot afford that right now.\n[18s] Agent: I can apply a loyalty waiver and bring it down by 1,800 rupees, plus zero waiting period.\n[27s] Customer: Okay, if you apply that discount, email me the revised quote and I will pay today evening."
+    },
+    {
+      "call_outcome": "UNSUCCESSFUL",
+      "reason": "Call was disconnected due to poor carrier signal",
+      "category": "NETWORK_DROP",
+      "sentiment": "ANNOYED",
+      "key_quote": "Your voice is breaking completely...",
+      "next_action": "Recommend rescheduling the call for a later time",
+      "call_id": "CALL-004",
+      "source_file": "CALL_004_network_drop.txt",
+      "transcript": "\ufeff[0s] Agent: Hello, calling from Meghana International Insurance\u2014\n[4s] Customer: Hello? Your voice is breaking completely... hello? Can you hear me?\n[10s] Agent: Sir, can you hear me now? Checking network\u2014\n[14s] [Call disconnected due to poor carrier signal]"
+    }
+  ]
+}

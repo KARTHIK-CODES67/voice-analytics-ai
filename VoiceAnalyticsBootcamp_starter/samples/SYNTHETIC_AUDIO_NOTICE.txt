@@ -1,0 +1,4 @@
+This WAV is computer-generated synthetic English speech, not a real customer recording.
+Generated offline from a fictional training script. Whisper transcription quality is NOT guaranteed.
+Text:
+Hello. I am calling about your vehicle insurance renewal. I cannot decide today. Please call me tomorrow. Sure. We will follow up at your preferred time.

@@ -1,0 +1,3 @@
+﻿[0s] Agent: Hello, calling from Meghana International Insurance about your vehicle policy renewal.
+[7s] Customer: Look, I am driving right now and I already renewed my policy with another company last week. Don't call again.
+[15s] Agent: Understood sir, sorry for the disturbance. Have a safe drive.

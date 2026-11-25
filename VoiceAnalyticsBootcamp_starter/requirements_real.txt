@@ -1,0 +1,5 @@
+# OPTIONAL: necessary only for faster-whisper + original reference project.
+# Check the current upstream packages, Python 3.11 compatibility and licenses.
+faster-whisper>=1.1,<2
+jsonschema>=4.20,<5
+pytest>=8,<10

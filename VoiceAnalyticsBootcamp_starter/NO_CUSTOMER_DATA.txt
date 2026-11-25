@@ -1,0 +1,1 @@
+This starter is ONLY for fictional training records. Never place customer recordings here without approved authorization, access control, retention policy, and security review. The .env.example contains no secrets. Ollama must remain local, and models must be reviewed for license and cloud behavior.

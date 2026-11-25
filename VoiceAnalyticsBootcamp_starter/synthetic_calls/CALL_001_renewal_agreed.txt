@@ -1,0 +1,4 @@
+﻿[0s] Agent: Good afternoon, calling from Meghana International Insurance regarding your policy renewal due tomorrow.
+[8s] Customer: Oh yes, I was waiting for a call! How much is the renewal amount with my No Claim Bonus?
+[16s] Agent: With your 25% NCB discount, the total is 8,450 rupees. I can send the payment link to your WhatsApp right now.
+[25s] Customer: Yes please send it right away, I will complete the payment in five minutes. Thank you!
