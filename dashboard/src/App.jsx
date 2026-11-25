@@ -17,13 +17,11 @@ const SAMPLE_PRESETS = [
   }
 ];
 
-const INITIAL_CALLS = Array.isArray(initialData) ? initialData : (initialData.calls || []);
-
 export default function App() {
-  const [calls, setCalls] = useState(INITIAL_CALLS);
+  const [calls, setCalls] = useState(Array.isArray(initialData) ? initialData : (initialData.calls || []));
   const [activeTab, setActiveTab] = useState('overview');
   const [filter, setFilter] = useState('ALL');
-  const [expandedId, setExpandedId] = useState(INITIAL_CALLS[0]?.call_id || null);
+  const [expandedId, setExpandedId] = useState((Array.isArray(initialData) ? initialData[0]?.call_id : initialData.calls?.[0]?.call_id) || null);
 
   const [sandboxMode, setSandboxMode] = useState('audio');
   const [groqKey, setGroqKey] = useState(() => import.meta.env.VITE_GROQ_API_KEY || localStorage.getItem('groq_api_key') || '');
@@ -48,21 +46,13 @@ export default function App() {
   }, [calls, filter]);
 
   const handleExportCsv = () => {
-    const headers = ['call_id', 'call_outcome', 'category', 'sentiment', 'reason', 'key_quote', 'next_action', 'source_file'];
-    const escapeCell = (val) => `"${String(val ?? '').replace(/"/g, '""').replace(/\r?\n/g, ' ')}"`;
-    const rows = [
-      headers.join(','),
-      ...filteredCalls.map(c => headers.map(h => escapeCell(c[h] || (h === 'source_file' ? 'pii_scrubbed_batch' : ''))).join(','))
-    ];
-    const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `voice_analytics_audit_${filter.toLowerCase()}_${new Date().toISOString().slice(0, 10)}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    const headers = ['call_id', 'call_outcome', 'category', 'sentiment', 'reason', 'key_quote', 'next_action'];
+    const esc = v => '"' + String(v ?? '').replace(/"/g, '""').replace(/\r?\n/g, ' ') + '"';
+    const csv = [headers.join(','), ...filteredCalls.map(c => headers.map(h => esc(c[h])).join(','))].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    a.download = 'voice_analytics_audit_' + filter.toLowerCase() + '.csv';
+    a.click();
   };
 
   const saveKey = (val) => {
@@ -101,9 +91,6 @@ export default function App() {
       next_action: isNetwork ? 'Retry call during peak network window.' : 'Log objection reason and trigger win-back retention offer.'
     };
   };
-
-  const SYSTEM_PROMPT =
-    'You are an insurance renewal call QA auditor. Respond ONLY with valid JSON: {"call_outcome": "SUCCESSFUL" or "UNSUCCESSFUL", "reason": "1-sentence clear explanation of why the call succeeded or failed", "category": "Choose RENEWAL_CONFIRMED or DISCOUNT_ACCEPTED ONLY if call_outcome is SUCCESSFUL; if UNSUCCESSFUL choose from COMPETITOR_SWITCH | PRICE_OBJECTION | CUSTOMER_CONFUSED | NETWORK_DROP | CALLBACK_REQUESTED", "sentiment": "POSITIVE" | "NEUTRAL" | "ANNOYED", "key_quote": "most important sentence from transcript", "next_action": "recommended follow-up"}';
 
   const handleAnalyzeAudio = async () => {
     setErrorMsg('');
@@ -146,7 +133,11 @@ export default function App() {
           model: 'llama-3.3-70b-versatile',
           response_format: { type: 'json_object' },
           messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
+            {
+              role: 'system',
+              content:
+                'You are an insurance renewal call QA auditor. Respond ONLY with valid JSON: {"call_outcome": "SUCCESSFUL" or "UNSUCCESSFUL", "reason": "1-sentence clear explanation of why the call succeeded or failed", "category": "RENEWAL_CONFIRMED" | "DISCOUNT_ACCEPTED" | "COMPETITOR_SWITCH" | "PRICE_OBJECTION" | "NETWORK_DROP" | "CALLBACK_REQUESTED", "sentiment": "POSITIVE" | "NEUTRAL" | "ANNOYED", "key_quote": "most important sentence from transcript", "next_action": "recommended follow-up"}'
+            },
             { role: 'user', content: `Transcript:\n${transcriptText}` }
           ]
         })
@@ -194,7 +185,11 @@ export default function App() {
             model: 'llama-3.3-70b-versatile',
             response_format: { type: 'json_object' },
             messages: [
-              { role: 'system', content: SYSTEM_PROMPT },
+              {
+                role: 'system',
+                content:
+                  'You are an insurance renewal call QA auditor. Respond ONLY with valid JSON: {"call_outcome": "SUCCESSFUL" or "UNSUCCESSFUL", "reason": "1-sentence clear explanation of why the call succeeded or failed", "category": "RENEWAL_CONFIRMED" | "DISCOUNT_ACCEPTED" | "COMPETITOR_SWITCH" | "PRICE_OBJECTION" | "NETWORK_DROP" | "CALLBACK_REQUESTED", "sentiment": "POSITIVE" | "NEUTRAL" | "ANNOYED", "key_quote": "most important sentence from transcript", "next_action": "recommended follow-up"}'
+              },
               { role: 'user', content: `Transcript:\n${transcriptInput}` }
             ]
           })
@@ -233,7 +228,7 @@ export default function App() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <h1 style={{ fontSize: '1.1rem', fontWeight: 700, letterSpacing: '-0.02em', color: '#f8fafc' }}>VoiceAnalytics AI</h1>
                 <span style={{ fontSize: '0.7rem', fontWeight: 600, padding: '2px 8px', borderRadius: '999px', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
-                  PII-SAFE AUDIT
+                  PII-SAFE DEMO
                 </span>
               </div>
               <p style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Automated Call Outcome & Failure Diagnostics • Built by Karthik M</p>
@@ -270,7 +265,7 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.83rem', color: '#cbd5e1' }}>
             <ShieldCheck size={18} color="#34d399" style={{ flexShrink: 0 }} />
             <span>
-              <strong>Zero-PII Architecture:</strong> Audited offline via <code style={{ color: '#93c5fd' }}>Whisper + qwen2.5:3b</code> with phone numbers & customer identifiers scrubbed before export.
+              <strong>Zero-PII Architecture:</strong> Pre-loaded records use synthetic demo transcripts classified via local <code style={{ color: '#93c5fd' }}>qwen2.5:3b</code>. Real customer audio stays offline.
             </span>
           </div>
           <button
@@ -282,7 +277,7 @@ export default function App() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '14px', marginBottom: '24px' }}>
-          <KpiCard title="Total Calls Audited" value={stats.total} subtitle="PII-Scrubbed + Live" accent="#60a5fa" />
+          <KpiCard title="Total Calls Audited" value={stats.total} subtitle="Synthetic + Live Sandbox" accent="#60a5fa" />
           <KpiCard title="Successful Calls" value={stats.successful} subtitle={`${stats.rate}% Conversion Rate`} accent="#34d399" />
           <KpiCard title="Unsuccessful Calls" value={stats.unsuccessful} subtitle={`${100 - stats.rate}% Drop / Objection`} accent="#f87171" />
           <KpiCard title="Local AI Engine" value="Whisper + Qwen" subtitle="Offline STT & JSON Audit" accent="#a78bfa" />
@@ -293,7 +288,7 @@ export default function App() {
             <div style={{ gridColumn: 'span 2', minWidth: 0 }}>
               <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '14px' }}>
                 <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc' }}>Call Classification Log</h2>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                   {['ALL', 'SUCCESSFUL', 'UNSUCCESSFUL'].map(f => (
                     <button
                       key={f}
@@ -308,18 +303,7 @@ export default function App() {
                       {f}
                     </button>
                   ))}
-                  <button
-                    onClick={handleExportCsv}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '6px',
-                      padding: '5px 12px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer',
-                      border: '1px solid rgba(16, 185, 129, 0.45)',
-                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                      color: '#34d399'
-                    }}
-                  >
-                    <Download size={14} /> Export CSV
-                  </button>
+                  <button onClick={handleExportCsv} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', border: '1px solid rgba(16, 185, 129, 0.45)', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}><Download size={14} /> Export CSV</button>
                 </div>
               </div>
 
@@ -347,7 +331,7 @@ export default function App() {
                             <span style={{ fontSize: '0.72rem', padding: '2px 8px', borderRadius: '6px', backgroundColor: '#1e293b', color: '#94a3b8', fontWeight: 600 }}>
                               {call.category}
                             </span>
-                            <span style={{ fontSize: '0.72rem', color: '#64748b' }}>• {call.source_file || 'pii_scrubbed_audio'}</span>
+                            <span style={{ fontSize: '0.72rem', color: '#64748b' }}>• {call.source_file}</span>
                           </div>
                           <p style={{ fontSize: '0.9rem', color: '#e2e8f0', fontWeight: 500 }}>{call.reason}</p>
                         </div>
@@ -490,4 +474,93 @@ export default function App() {
               </div>
             ) : (
               <div>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '1
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
+                  {SAMPLE_PRESETS.map((p, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setTranscriptInput(p.text)}
+                      style={{ padding: '6px 10px', borderRadius: '8px', border: '1px solid #334155', backgroundColor: '#111827', color: '#cbd5e1', fontSize: '0.76rem', cursor: 'pointer' }}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                  <button onClick={handleExportCsv} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 12px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', border: '1px solid rgba(16, 185, 129, 0.45)', backgroundColor: 'rgba(16, 185, 129, 0.15)', color: '#34d399' }}><Download size={14} /> Export CSV</button>
+                </div>
+                <textarea
+                  rows={6}
+                  value={transcriptInput}
+                  onChange={e => setTranscriptInput(e.target.value)}
+                  style={{ width: '100%', padding: '12px', borderRadius: '10px', backgroundColor: '#090d16', border: '1px solid #334155', color: '#f1f5f9', fontSize: '0.84rem', marginBottom: '12px' }}
+                />
+                <button
+                  onClick={handleAnalyzeTranscript}
+                  disabled={loading}
+                  style={{
+                    width: '100%', padding: '12px', borderRadius: '10px', border: 'none', backgroundColor: '#2563eb', color: '#fff',
+                    fontWeight: 700, fontSize: '0.92rem', cursor: loading ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  {loading ? 'Analyzing Transcript...' : 'Classify Transcript Now'}
+                </button>
+              </div>
+            )}
+
+            {errorMsg && (
+              <div style={{ marginTop: '14px', padding: '12px', borderRadius: '10px', backgroundColor: 'rgba(239, 68, 68, 0.14)', border: '1px solid rgba(239, 68, 68, 0.4)', color: '#fca5a5', fontSize: '0.84rem' }}>
+                {errorMsg}
+              </div>
+            )}
+
+            {liveResult && (
+              <div style={{ marginTop: '18px', padding: '18px', borderRadius: '14px', backgroundColor: '#111827', border: `1px solid ${liveResult.call_outcome === 'SUCCESSFUL' ? '#10b981' : '#f87171'}` }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <OutcomeBadge outcome={liveResult.call_outcome} />
+                    <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>{liveResult.category}</span>
+                  </div>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b' }}>Added to Audit Dashboard ({liveResult.call_id})</span>
+                </div>
+                <p style={{ fontSize: '0.95rem', fontWeight: 600, color: '#f8fafc', marginBottom: '10px' }}>{liveResult.reason}</p>
+                <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '10px' }}>
+                  <strong style={{ color: '#cbd5e1' }}>Recommended Next Action:</strong> {liveResult.next_action}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px', fontWeight: 600 }}>EXTRACTED TRANSCRIPT</div>
+                <pre style={{ whiteSpace: 'pre-wrap', fontSize: '0.8rem', color: '#cbd5e1', backgroundColor: '#090d16', padding: '10px', borderRadius: '8px', border: '1px solid #1e293b' }}>
+                  {liveResult.transcript}
+                </pre>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
+
+function KpiCard({ title, value, subtitle, accent }) {
+  return (
+    <div style={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '14px', padding: '16px 18px' }}>
+      <div style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600, marginBottom: '6px' }}>{title}</div>
+      <div style={{ fontSize: '1.65rem', fontWeight: 800, color: accent, letterSpacing: '-0.02em', marginBottom: '2px' }}>{value}</div>
+      <div style={{ fontSize: '0.76rem', color: '#64748b' }}>{subtitle}</div>
+    </div>
+  );
+}
+
+function OutcomeBadge({ outcome }) {
+  const isSuccess = outcome === 'SUCCESSFUL';
+  return (
+    <span
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 10px', borderRadius: '999px', fontSize: '0.74rem', fontWeight: 700,
+        backgroundColor: isSuccess ? 'rgba(16, 185, 129, 0.16)' : 'rgba(248, 113, 113, 0.16)',
+        color: isSuccess ? '#34d399' : '#f87171',
+        border: `1px solid ${isSuccess ? 'rgba(16, 185, 129, 0.35)' : 'rgba(248, 113, 113, 0.35)'}`
+      }}
+    >
+      {isSuccess ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
+      {outcome}
+    </span>
+  );
+}
+
