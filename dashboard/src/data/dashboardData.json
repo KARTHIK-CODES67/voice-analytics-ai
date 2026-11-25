@@ -1,51 +1,32 @@
-{
-  "total_calls": 4,
-  "successful_calls": 2,
-  "unsuccessful_calls": 2,
-  "calls": [
-    {
-      "call_outcome": "SUCCESSFUL",
-      "reason": "The customer accepted the payment link and will complete the payment, confirming the renewal.",
-      "category": "RENEWAL_CONFIRMED",
-      "sentiment": "POSITIVE",
-      "key_quote": "Yes please send it right away, I will complete the payment in five minutes.",
-      "next_action": "Follow up with the customer regarding any issues or concerns they may have with the payment process.",
-      "call_id": "CALL-001",
-      "source_file": "CALL_001_renewal_agreed.txt",
-      "transcript": "\ufeff[0s] Agent: Good afternoon, calling from Meghana International Insurance regarding your policy renewal due tomorrow.\n[8s] Customer: Oh yes, I was waiting for a call! How much is the renewal amount with my No Claim Bonus?\n[16s] Agent: With your 25% NCB discount, the total is 8,450 rupees. I can send the payment link to your WhatsApp right now.\n[25s] Customer: Yes please send it right away, I will complete the payment in five minutes. Thank you!"
-    },
-    {
-      "call_outcome": "UNSUCCESSFUL",
-      "reason": "Customer declined renewal and switched to a competitor last week",
-      "category": "COMPETITOR_SWITCH",
-      "sentiment": "ANNOYED",
-      "key_quote": "Look, I am driving right now and I already renewed my policy with another company last week",
-      "next_action": "Send a follow-up email with benefits of staying with the current company",
-      "call_id": "CALL-002",
-      "source_file": "CALL_002_competitor_switch.txt",
-      "transcript": "\ufeff[0s] Agent: Hello, calling from Meghana International Insurance about your vehicle policy renewal.\n[7s] Customer: Look, I am driving right now and I already renewed my policy with another company last week. Don't call again.\n[15s] Agent: Understood sir, sorry for the disturbance. Have a safe drive."
-    },
-    {
-      "call_outcome": "SUCCESSFUL",
-      "reason": "The customer agreed to the discounted quote and will pay today evening.",
-      "category": "DISCOUNT_ACCEPTED",
-      "sentiment": "POSITIVE",
-      "key_quote": "Okay, if you apply that discount, email me the revised quote and I will pay today evening.",
-      "next_action": "Follow up with an invoice and confirmation email",
-      "call_id": "CALL-003",
-      "source_file": "CALL_003_discount_closed.txt",
-      "transcript": "\ufeff[0s] Agent: Namaskara, calling from Meghana International Insurance regarding your health policy renewal.\n[9s] Customer: The premium you quoted is 3,000 rupees higher than last year. I cannot afford that right now.\n[18s] Agent: I can apply a loyalty waiver and bring it down by 1,800 rupees, plus zero waiting period.\n[27s] Customer: Okay, if you apply that discount, email me the revised quote and I will pay today evening."
-    },
-    {
-      "call_outcome": "UNSUCCESSFUL",
-      "reason": "Call was disconnected due to poor carrier signal",
-      "category": "NETWORK_DROP",
-      "sentiment": "ANNOYED",
-      "key_quote": "Your voice is breaking completely...",
-      "next_action": "Recommend rescheduling the call for a later time",
-      "call_id": "CALL-004",
-      "source_file": "CALL_004_network_drop.txt",
-      "transcript": "\ufeff[0s] Agent: Hello, calling from Meghana International Insurance\u2014\n[4s] Customer: Hello? Your voice is breaking completely... hello? Can you hear me?\n[10s] Agent: Sir, can you hear me now? Checking network\u2014\n[14s] [Call disconnected due to poor carrier signal]"
-    }
-  ]
-}
+[
+  {
+    "call_id": "REAL_CALL_001",
+    "call_outcome": "UNSUCCESSFUL",
+    "category": "CUSTOMER_CONFUSED",
+    "sentiment": "ANNOYED",
+    "reason": "The caller was not able to understand the explanation and provided a non-English response.",
+    "key_quote": "I am a half-march.",
+    "next_action": "Request for clarification and reassurance on their insurance details.",
+    "transcript": "[0.0s] Hello. Hello.\n[4.0s] Sir, how are you?\n[6.0s] Hello.\n[7.0s] How are you?\n[8.0s] Sir, how are you?\n[10.0s] How are you?\n[12.0s] How are you?\n[14.0s] I am a half-march.\n[17.0s] How are you?\n[18.0s] I am a half-march.\n[21.0s] Okay, okay.\n[22.0s] I am a half-march.\n[24.0s] Sorry, sir."
+  },
+  {
+    "call_id": "REAL_CALL_002",
+    "call_outcome": "UNSUCCESSFUL",
+    "category": "CUSTOMER_CONFUSED",
+    "sentiment": "ANNOYED",
+    "reason": "Customer repeatedly agreed to renew insurance but did not confirm the renewal date or accept any discount.",
+    "key_quote": "Yes",
+    "next_action": "Request for specific renewal date and additional discount information.",
+    "transcript": "[0.0s] Hello. Hello.\n[3.0s] Sir. Hello.\n[4.0s] Sir. Hello.\n[5.0s] Megan has called for insurance.\n[6.0s] Yes.\n[7.0s] Yes.\n[8.0s] Sir.\n[9.0s] If you have a vehicle insurance date,\n[10.0s] DO vehicle.\n[11.0s] Yes.\n[12.0s] Yes.\n[13.0s] Yes.\n[14.0s] Yes.\n[15.0s] Yes.\n[16.0s] Yes.\n[17.0s] Yes.\n[18.0s] Yes.\n[19.0s] Yes.\n[20.0s] Yes.\n[21.0s] Yes.\n[22.0s] Yes.\n[23.0s] Yes.\n[24.0s] Yes.\n[25.0s] Yes.\n[26.0s] Yes.\n[27.0s] Yes.\n[28.0s] Yes.\n[29.0s] Yes.\n[30.0s] Yes.\n[31.0s] Yes.\n[32.0s] Yes.\n[33.0s] Yes.\n[34.0s] Yes.\n[35.0s] Yes.\n[36.0s] Yes.\n[37.0s] Yes.\n[38.0s] Yes.\n[39.0s] Yes.\n[40.0s] Yes.\n[41.0s] Yes.\n[42.0s] Yes.\n[43.0s] Yes.\n[44.0s] Yes.\n[45.0s] Yes.\n[46.0s] Yes.\n[47.0s] Yes.\n[48.0s] Yes.\n[49.0s] Yes.\n[50.0s] Yes.\n[51.0s] Yes.\n[52.0s] Yes.\n[53.0s] Yes.\n[54.0s] Yes.\n[55.0s] Yes.\n[56.0s] Yes.\n[57.0s] Yes.\n[58.0s] Yes."
+  },
+  {
+    "call_id": "REAL_CALL_003",
+    "call_outcome": "UNSUCCESSFUL",
+    "category": "CUSTOMER_CONFUSED",
+    "sentiment": "ANNOYED",
+    "reason": "The customer showed confusion about the insurance renewal process and the agent's communication was unclear and inconsistent.",
+    "key_quote": "What does the vital insurance wants to be the contact man, sir?",
+    "next_action": "Follow-up call to clarify the renewal process and reassure the customer.",
+    "transcript": "[0.0s] Hello?\n[1.8s] Hello?\n[3.8s] Hello.\n[4.8s] Hello.\n[6.2s] Hello.\n[7.1s] Hello.\n[8.5s] Hello.\n[9.2s] Yes, sir.\n[10.2s] It's happened to the vehicle insurance date.\n[13.3s] You can't wait to meet you.\n[15.2s] What does that mean?\n[17.4s] Well, no.\n[18.1s] Hello?\n[19.4s] 1079?\n[20.5s] Yes.\n[21.8s] Hello.\n[22.7s] My brother, I'm happy about that.\n[24.6s] I have the gas disorder.\n[26.1s] Hello.\n[27.3s] Okay, okay, okay.\n[28.3s] What does the vital insurance wants to be the contact man, sir?\n[30.9s] 4-10-10.\n[31.9s] Hey, sir?\n[32.9s] Okay, madam, 24-10-10.\n[34.9s] How do you, sir?\n[35.9s] How do you, sir?\n[36.9s] 24th glass, ready?\n[37.9s] Okay, okay.\n[38.9s] Hmm, sorry, sir.\n[39.9s] Okay, okay.\n[40.9s] Hmm, sorry, sir.\n[42.9s] Thank you.\n[43.9s] Thank you."
+  }
+]
